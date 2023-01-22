@@ -88,21 +88,22 @@ class Reconcile:
             t7.set(item['values'][6])
             t8.set(item['values'][7])
 
+        #RECONCILE CODE PROBLEM
         def reconcile():
             if messagebox.askyesno("confirmation", "Are you want to reconcile these statements?"):
                 
-                # data_unlabeled = pd.read_csv("test2.csv")
-                # x_unlabeled = data_unlabeled[["x1"]].values
+                data_unlabeled = pd.read_csv("test2.csv")
+                x_unlabeled = data_unlabeled[["x1"]].values
 
-                # # Unsupervised learning
-                # print("unsupervised: ")
-                # random_params = initialize_random_params()
-                # #weightage_get = run_em(x_unlabeled, random_params)
-                # #weightage = np.array(weightage_get)
-                # #print(weightage)
-                weightage = [[0.0], [0.6], [0.7], [0.4], [0.5], [0.3], [0.8], [0.7]]
-                # #print(run_em(x_unlabeled, random_params))
-                # weightage = [[run_em(x_unlabeled, random_params)], [run_em(x_unlabeled, random_params)], [run_em(x_unlabeled, random_params)], [run_em(x_unlabeled, random_params)], [run_em(x_unlabeled, random_params)], [run_em(x_unlabeled, random_params)], [run_em(x_unlabeled, random_params)], [run_em(x_unlabeled, random_params)]]
+                # Unsupervised learning using EM Algorithm for weightage
+                print("unsupervised: ")
+                random_params = initialize_random_params()
+                #weightage_get = run_em(x_unlabeled, random_params)
+                #weightage = np.array(weightage_get)
+                #print(weightage)
+                #weightage = [[0.0], [0.6], [0.7], [0.4], [0.5], [0.3], [0.8], [0.7]]
+                #print(run_em(x_unlabeled, random_params))
+                weightage = [[run_em(x_unlabeled, random_params)], [run_em(x_unlabeled, random_params)], [run_em(x_unlabeled, random_params)], [run_em(x_unlabeled, random_params)], [run_em(x_unlabeled, random_params)], [run_em(x_unlabeled, random_params)], [run_em(x_unlabeled, random_params)], [run_em(x_unlabeled, random_params)]]
                 
                 #bank statement
                 self.cursor.execute("select * from bankstatementstorage")
@@ -114,15 +115,16 @@ class Reconcile:
                 
                 for bank_data in bank_table:
                     for weight_row in weightage:
-                    #bank_data = np.asfarray(bank_data)
-                    #bank_data = y.join(format(i, '08b') for i in bytearray(bank_data, encoding ='utf-8'))
-                    #if not isinstance(bank_data, int):
-                        #'bank_data'.encode('ascii')
+                    # Attempt to change bank data from string to binary
+                        #bank_data = np.asfarray(bank_data)
+                        #bank_data = y.join(format(i, '08b') for i in bytearray(bank_data, encoding ='utf-8'))
+                        #if not isinstance(bank_data, int):
+                            #'bank_data'.encode('ascii')
                         display_scorebank = np.concatenate((bank_data, weightage), axis=1)
+                    # ERROR - cannot multiply string with float
                     #score = bank_data * weightage
-                    #try masukkan calculation recon kat sini
-                    #print(display_scorebank)
-                    #print(score)
+                    print(display_scorebank)
+                    print(score)
                     #print("\n")
 
                 #cash statement
@@ -177,21 +179,14 @@ class Reconcile:
                                 pager = pager + 1
                         sheet2 = sheet2 + 1
                     sheet1 = sheet1 + 1 
-                for amount in bank_table:
-                    match_amount =+ bank_table[sheet1][3]
-                    print(str(match_amount))
-                print("\n" + str(match_amount))
                 
-                
-                    
+                    # To get the total of unmatched amount
                     # sheet3 = 0
                     # unreconcile_count = unreconcile_count + 1
                     # print("\nCounter of unmatched data: " + str(unreconcile_count))
                     # print(bank_table[sheet3][3])
 
-                # #print(display_scorebank)
-                # #print(display_scorecash)
-
+                # Attempt to convert string to binary
                 # #score = bin(cash_data)
                 # #display = np.concatenate((display_scorebank,display_scorecash), axis=1)
                 # #z = map(bin,bytearray(cash_data))
@@ -203,13 +198,10 @@ class Reconcile:
             else:
                 messagebox.showinfo("Warning", "Reconcile is cancelled")
 
-            #if display_scorebank == display_scorecash:
-                #print("same")
-
         def match():
             END
 
-        #Algorithm
+        #Algorithm EM
         def get_random_psd(n):
             x = np.random.normal(0, 1, size=(n, n))
             return np.dot(x, x.transpose())
@@ -284,16 +276,6 @@ class Reconcile:
         if __name__ == '__main__':
             data_unlabeled = pd.read_csv("test2.csv")
             x_unlabeled = data_unlabeled[["x1"]].values
-
-            # Unsupervised learning
-            #print("unsupervised: ")
-            #random_params = initialize_random_params()
-            #unsupervised_forecastsforecasts, unsupervised_posterior, unsupervised_loglikelihoods = run_em(x_unlabeled, random_params)
-            #print("total steps: ", len(unsupervised_loglikelihoods))
-            #plt.plot(unsupervised_loglikelihoods)
-            #plt.title("unsupervised log likelihoods")
-            #plt.savefig("unsupervised.png")
-            #plt.close()
 
         #declare
         t1 = StringVar()
