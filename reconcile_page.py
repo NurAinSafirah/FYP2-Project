@@ -156,14 +156,19 @@ class Reconcile:
                 print("\nReconcile Summary")
                 reconcile_count = 0
                 match_amount = 0
-                unreconcile_count = 0
+                total_amount = 0
+                unmatch_amount = 0
                 sheet1 = 0
+                sheet3 = 0
+
                 while sheet1 < len(bank_table):
                     sheet2 = 0
                     while sheet2 < len(cash_table):
                         if bank_table[sheet1][6] == cash_table[sheet2][6]:
                             reconcile_count = reconcile_count + 1
                             print("\nCounter of matched data: " + str(reconcile_count))
+                            match_amount = match_amount + bank_table[sheet1][3]
+                            print("Total Match Amount: " + str(match_amount) + "\n")
                             pager = 1
                             while pager < 3:
                                 count = 0
@@ -185,23 +190,21 @@ class Reconcile:
                                 if pager%2 == 0:
                                     print("Cashbook :")
                                     print(cash_table[sheet2])
-                                pager = pager + 1
+                                pager = pager + 1   
                         sheet2 = sheet2 + 1
-                    sheet1 = sheet1 + 1 
+                    else:
+                        total_amount = total_amount + bank_table[sheet1][3]
+                        unmatch_amount = total_amount - match_amount
+                    sheet1 = sheet1 + 1
                 
-                    # To get the total of unmatched amount
-                    # sheet3 = 0
-                    # unreconcile_count = unreconcile_count + 1
-                    # print("\nCounter of unmatched data: " + str(unreconcile_count))
-                    # print(bank_table[sheet3][3])
+                print("\nTotal Match Amount: RM" + str(match_amount))
+                print("Total Unmatch Amount: RM" + str(unmatch_amount) + "\n") 
 
                 # Attempt to convert string to binary
                 # #score = bin(cash_data)
                 # #display = np.concatenate((display_scorebank,display_scorecash), axis=1)
                 # #z = map(bin,bytearray(cash_data))
                 # #print(list(z))
-
-                # print(cash_row)
 
                 messagebox.showinfo("Successful", "Reconcile is done")
             else:
