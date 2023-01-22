@@ -89,6 +89,12 @@ class Reconcile:
             t8.set(item['values'][7])
 
         #RECONCILE CODE PROBLEM
+        #Explanation
+        #Dapatkan weightage using Expectation Maximization algorithm
+        #Then that weightage should be multiply with the bank statement & cashbook statement data from MySQL database to get the score
+        #Reconciliation score formula = Weightage([varchar]reference) + Weightage([varchar]description) + Weightage([decimal]amount) +
+        #                               Weightage([date]date) + Weightage([datetime]time) + Weightage(varchar]approvalcode) + Weightage([varchar]transfertype)
+        #Match amount and unmatch amount will be calculated and a report will be generated
         def reconcile():
             if messagebox.askyesno("confirmation", "Are you want to reconcile these statements?"):
                 
