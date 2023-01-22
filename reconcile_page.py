@@ -92,8 +92,9 @@ class Reconcile:
         #Explanation
         #Dapatkan weightage using Expectation Maximization algorithm
         #Then that weightage should be multiply with the bank statement & cashbook statement data from MySQL database to get the score
-        #Reconciliation score formula = Weightage([varchar]reference) + Weightage([varchar]description) + Weightage([decimal]amount) +
+        #Matching score formula = Weightage([varchar]reference) + Weightage([varchar]description) + Weightage([decimal]amount) +
         #                               Weightage([date]date) + Weightage([datetime]time) + Weightage(varchar]approvalcode) + Weightage([varchar]transfertype)
+        #If score bank statement row A == score cashbook statement row D, It's match.
         #Match amount and unmatch amount will be calculated and a report will be generated
         def reconcile():
             if messagebox.askyesno("confirmation", "Are you want to reconcile these statements?"):
@@ -149,7 +150,9 @@ class Reconcile:
                     #print(display_scorecash)
                     #print(score)
                     #print("\n")
-
+                    
+                #The match between both statements should be based on matching score but
+                #Since still cannot multiply with the weightage, we try to find the match first
                 print("\nReconcile Summary")
                 reconcile_count = 0
                 match_amount = 0
